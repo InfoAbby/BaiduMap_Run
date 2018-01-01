@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.garry.runningmap.ui.UserRegistActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="25dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="用户注册"
+        android:textSize="50sp"
+        tools:layout_editor_absoluteX="92dp"
+        tools:layout_editor_absoluteY="16dp"
+        android:id="@+id/textView6"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="输入邮箱"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="95dp"/>
+
+    <EditText
+        android:id="@+id/regist_mail"
+        android:layout_width="263dp"
+        android:layout_height="40dp"
+        android:hint="    如 RunningMap@Garry.com"
+        tools:layout_editor_absoluteX="61dp"
+        tools:layout_editor_absoluteY="127dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请确保您输入的是有效邮箱"
+        tools:layout_editor_absoluteX="108dp"
+        tools:layout_editor_absoluteY="167dp"
+        android:id="@+id/textView5"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="输入用户名"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="200dp"
+        />
+
+    <EditText
+        android:hint="     如 暗影之龙 或 消逝的记忆"
+        android:id="@+id/regist_username"
+        android:layout_width="263dp"
+        android:layout_height="40dp"
+        tools:layout_editor_absoluteY="235dp"
+        tools:layout_editor_absoluteX="61dp"/>
+    <TextView
+        android:text="输入密码"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteY="291dp"
+        tools:layout_editor_absoluteX="27dp"/>
+    <EditText
+        android:id="@+id/regist_password"
+        android:layout_width="263dp"
+        android:layout_height="40dp"
+        tools:layout_editor_absoluteY="329dp"
+        tools:layout_editor_absoluteX="61dp"
+        android:hint="6到10个字母数字 如ILoveGarry"/>
+    <TextView
+        android:text="再次确认密码"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteY="388dp"
+        tools:layout_editor_absoluteX="27dp"/>
+    <EditText
+        android:id="@+id/regist_remarkpassword"
+        android:layout_width="263dp"
+        android:layout_height="40dp"
+        android:hint="   再输入一次密码，然后记住它"
+        tools:layout_editor_absoluteY="424dp"
+        tools:layout_editor_absoluteX="61dp"/>
+    <Button
+        android:id="@+id/regist_submit"
+        android:text="下一步"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteY="494dp"
+        tools:layout_editor_absoluteX="148dp"/>
+</android.support.constraint.ConstraintLayout>
