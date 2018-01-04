@@ -274,6 +274,7 @@ public class RunActivity extends Activity {
                             points.clear();
                             lastLoc = new LatLng(0,0);
                             isFirst = true;
+                            distance_len = 0.0;
                             finish();
 
                         }
@@ -343,15 +344,15 @@ public class RunActivity extends Activity {
         @Override    //获取当前位置经纬度
         public void onReceiveLocation(BDLocation bdLocation) {
 
-            String addr = bdLocation.getAddrStr();    //获取详细地址信息
+
             if (bdLocation == null || mMapView == null)
                 return;
 
            if (isFirst){
                 LatLng ll = null;
 
-               ll = new LatLng(bdLocation.getLatitude(),bdLocation.getLongitude());
-
+//                ll = new LatLng(bdLocation.getLatitude(),bdLocation.getLongitude());
+                ll = getMostAccuracyLocation(bdLocation);
                 if (ll == null){
                     return;
                 }
@@ -371,16 +372,13 @@ public class RunActivity extends Activity {
                return;
             }
 
-
             //从第二个点开始
             LatLng ll = new LatLng(bdLocation.getLatitude(),bdLocation.getLongitude());
+           //回调gps位置的频率是1秒一个
+            points.add(ll);
 
 
-           //回调gps位置的频率是3秒一个
-            if(DistanceUtil.getDistance(lastLoc,ll) > 5 )
-                //大于5米才加进去
-                points.add(ll);
-            //计算距离
+            //计算距离 单位千米
             distance_len = Utils.calculateDistance(points);
             distance.setText(String.format("%.2f",distance_len)+" km");
 
@@ -391,13 +389,14 @@ public class RunActivity extends Activity {
             double curLen = Utils.calculateDistance(recent);
             double avespeed = 3.0/curLen;
             int speed_min= (int) (avespeed/60);
-            double speed_sec = curLen%60.0;
-            if(speed_min>20){
-                //认为没有在运动
-                speed.setText("--:--");
-            }else {
+            int speed_sec = (int) (curLen%60);
+            if (speed_min < 100){
                 speed.setText(speed_min + "'" + String.format("%02d", speed_sec) + "''");
+            }else {
+                Toast.makeText(RunActivity.this,"不要偷懒哦！",Toast.LENGTH_SHORT).show();
+                speed.setText("--:--");
             }
+
             //每到一公里 记录配速 speed_int用来算平均配速
             if (distance_len >= (curMile+1) && !flag[curMile+1]){
                 curMile++;
@@ -436,11 +435,33 @@ public class RunActivity extends Activity {
         locData = new MyLocationData.Builder().accuracy(0).latitude(mCurrentLat)
                 .longitude(mCurrentLon).build();
         mBaiduMap.setMyLocationData(locData);
-        //Toast.makeText(this, bdLocation.getAddrStr()+"", LENGTH_SHORT).show();
-
         builder = new MapStatus.Builder();
         builder.target(ll).zoom(mCurrentZoom);
         mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+    }
+    private LatLng getMostAccuracyLocation(BDLocation location){
+
+        if (location.getRadius()>40) {//gps位置精度大于40米的点直接弃用
+            Toast.makeText(RunActivity.this,"定位信号弱，请到宽阔且有信号的地方",Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+        LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+
+        if (DistanceUtil.getDistance(lastLoc, ll ) > 10) {
+            Toast.makeText(RunActivity.this,"定位信号弱，请到宽阔且有信号的地方",Toast.LENGTH_SHORT).show();
+            lastLoc = ll;
+            points.clear();//有任意连续两点位置大于10，重新取点
+            return null;
+        }
+        points.add(ll);
+        lastLoc = ll;
+        //有3个连续的点之间的距离小于10，认为gps已稳定，以最新的点为起始点
+        if(points.size() >= 3){
+            points.clear();
+            return ll;
+        }
+        return null;
     }
 
 
