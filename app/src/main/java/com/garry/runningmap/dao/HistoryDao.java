@@ -65,7 +65,6 @@ public class HistoryDao {
                 //时间读取 格式
 
                 history.setDay(day);
-
                 history.setCurTime(recTime);
 
                 history.setAveSpeed(cursor.getString(6));

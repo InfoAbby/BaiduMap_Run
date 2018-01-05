@@ -456,8 +456,8 @@ public class RunActivity extends Activity {
         }
         points.add(ll);
         lastLoc = ll;
-        //有3个连续的点之间的距离小于10，认为gps已稳定，以最新的点为起始点
-        if(points.size() >= 3){
+        //有2个连续的点之间的距离小于10，认为gps已稳定，以最新的点为起始点
+        if(points.size() >= 2){
             points.clear();
             return ll;
         }
